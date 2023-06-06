@@ -246,6 +246,18 @@ function love.update(dt)
         player2.dy = -PADDLE_SPEED
     elseif love.keyboard.isDown('down') then
         player2.dy = PADDLE_SPEED
+    elseif ball.dx > 0 and ball.x > VIRTUAL_WIDTH / 2 and ball.x < VIRTUAL_WIDTH / 1.3 and gameState == 'play' then
+      if player2.y + 10 < ball.y then
+          player2.dy = PADDLE_SPEED * ball.dx / VIRTUAL_WIDTH
+      elseif player2.y + 10 > ball.y then
+          player2.dy = -PADDLE_SPEED * ball.dx / VIRTUAL_WIDTH
+      end
+    elseif ball.dx > 0 and ball.x > VIRTUAL_WIDTH / 1.3 and gameState == 'play' then
+      if player2.y + 10 < ball.y then
+          player2.dy = PADDLE_SPEED
+      elseif player2.y + 10 > ball.y then
+          player2.dy = -PADDLE_SPEED
+      end
     else
         player2.dy = 0
     end
@@ -318,7 +330,7 @@ function love.draw()
     elseif gameState == 'serve' then
         -- UI messages
         love.graphics.setFont(smallFont)
-        love.graphics.printf('Player ' .. tostring(servingPlayer) .. "'s serve!", 
+        love.graphics.printf('Player ' .. tostring(servingPlayer) .. "'s serve!",
             0, 10, VIRTUAL_WIDTH, 'center')
         love.graphics.printf('Press Space or Enter to serve!', 0, 20, VIRTUAL_WIDTH, 'center')
     elseif gameState == 'play' then

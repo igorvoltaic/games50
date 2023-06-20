@@ -22,6 +22,8 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
+
+https://github.com/vrld/hump/blob/master/class.lua
 ]]--
 
 local function include_helper(to, from, seen)
@@ -81,16 +83,18 @@ local function new(class)
 	end})
 end
 
+
 -- interface for cross class-system compatibility (see https://github.com/bartbes/Class-Commons).
-if class_commons ~= false and not common then
-	common = {}
-	function common.class(name, prototype, parent)
-		return new{__includes = {prototype, parent}}
-	end
-	function common.instance(class, ...)
-		return class(...)
-	end
-end
+-- not needed in Flappy, since now other Class libraries are used
+-- if class_commons ~= false and not common then
+-- 	common = {}
+-- 	function common.class(name, prototype, parent)
+-- 		return new{__includes = {prototype, parent}}
+-- 	end
+-- 	function common.instance(class, ...)
+-- 		return class(...)
+-- 	end
+-- end
 
 
 -- the module

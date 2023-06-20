@@ -34,13 +34,13 @@ function CountdownState:update(dt)
 
         -- when 0 is reached, we should enter the PlayState
         if self.count == 0 then
-            gStateMachine:change('play')
+            GStateMachine:change('play')
         end
     end
 end
 
 function CountdownState:render()
     -- render count big in the middle of the screen
-    love.graphics.setFont(hugeFont)
+    love.graphics.setFont(HugeFont)
     love.graphics.printf(tostring(self.count), 0, 120, VIRTUAL_WIDTH, 'center')
 end

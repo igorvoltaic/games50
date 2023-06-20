@@ -19,6 +19,8 @@ BIRD_HEIGHT = 24
 
 PAUSED = false
 
+local pause_image = love.graphics.newImage('images/pause.png')
+
 function PlayState:init()
     self.bird = Bird()
     self.pipePairs = {}
@@ -107,6 +109,7 @@ function PlayState:update(dt)
     -- change state to pause if P is pressed
     if love.keyboard.wasPressed('p') then
       PAUSED = not PAUSED
+      Sounds['pause']:play()
     end
 
 end
@@ -122,7 +125,7 @@ function PlayState:render()
     self.bird:render()
 
     if PAUSED then
-      love.graphics.printf('Press P to continue!', 0, 160, VIRTUAL_WIDTH, 'center')
+      love.graphics.draw(pause_image, VIRTUAL_WIDTH / 2 - 25, VIRTUAL_HEIGHT / 2 - 25)
     end
 end
 

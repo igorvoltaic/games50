@@ -54,7 +54,7 @@ function EnterHighScoreState:update(dt)
 
         love.filesystem.write('breakout.lst', scoresStr)
 
-        gStateMachine:change('high-scores', {
+        GStateMachine:change('high-scores', {
             highScores = self.highScores
         })
     end
@@ -62,10 +62,10 @@ function EnterHighScoreState:update(dt)
     -- scroll through character slots
     if love.keyboard.wasPressed('left') and highlightedChar > 1 then
         highlightedChar = highlightedChar - 1
-        gSounds['select']:play()
+        GSounds['select']:play()
     elseif love.keyboard.wasPressed('right') and highlightedChar < 3 then
         highlightedChar = highlightedChar + 1
-        gSounds['select']:play()
+        GSounds['select']:play()
     end
 
     -- scroll through characters
@@ -83,11 +83,11 @@ function EnterHighScoreState:update(dt)
 end
 
 function EnterHighScoreState:render()
-    love.graphics.setFont(gFonts['medium'])
+    love.graphics.setFont(GFonts['medium'])
     love.graphics.printf('Your score: ' .. tostring(self.score), 0, 30,
         VIRTUAL_WIDTH, 'center')
 
-    love.graphics.setFont(gFonts['large'])
+    love.graphics.setFont(GFonts['large'])
     
     --
     -- render all three characters of the name
@@ -110,7 +110,7 @@ function EnterHighScoreState:render()
     love.graphics.print(string.char(chars[3]), VIRTUAL_WIDTH / 2 + 20, VIRTUAL_HEIGHT / 2)
     love.graphics.setColor(1, 1, 1, 1)
     
-    love.graphics.setFont(gFonts['small'])
+    love.graphics.setFont(GFonts['small'])
     love.graphics.printf('Press Enter to confirm!', 0, VIRTUAL_HEIGHT - 18,
         VIRTUAL_WIDTH, 'center')
 end

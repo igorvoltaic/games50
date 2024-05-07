@@ -27,25 +27,25 @@ end
 function PaddleSelectState:update(dt)
     if love.keyboard.wasPressed('left') then
         if self.currentPaddle == 1 then
-            gSounds['no-select']:play()
+            GSounds['no-select']:play()
         else
-            gSounds['select']:play()
+            GSounds['select']:play()
             self.currentPaddle = self.currentPaddle - 1
         end
     elseif love.keyboard.wasPressed('right') then
         if self.currentPaddle == 4 then
-            gSounds['no-select']:play()
+            GSounds['no-select']:play()
         else
-            gSounds['select']:play()
+            GSounds['select']:play()
             self.currentPaddle = self.currentPaddle + 1
         end
     end
 
     -- select paddle and move on to the serve state, passing in the selection
     if love.keyboard.wasPressed('return') or love.keyboard.wasPressed('enter') then
-        gSounds['confirm']:play()
+        GSounds['confirm']:play()
 
-        gStateMachine:change('serve', {
+        GStateMachine:change('serve', {
             paddle = Paddle(self.currentPaddle),
             bricks = LevelMaker.createMap(1),
             health = 3,
@@ -63,10 +63,10 @@ end
 
 function PaddleSelectState:render()
     -- instructions
-    love.graphics.setFont(gFonts['medium'])
+    love.graphics.setFont(GFonts['medium'])
     love.graphics.printf("Select your paddle with left and right!", 0, VIRTUAL_HEIGHT / 4,
         VIRTUAL_WIDTH, 'center')
-    love.graphics.setFont(gFonts['small'])
+    love.graphics.setFont(GFonts['small'])
     love.graphics.printf("(Press Enter to continue!)", 0, VIRTUAL_HEIGHT / 3,
         VIRTUAL_WIDTH, 'center')
         
@@ -77,7 +77,7 @@ function PaddleSelectState:render()
         love.graphics.setColor(40/255, 40/255, 40/255, 128/255)
     end
     
-    love.graphics.draw(gTextures['arrows'], gFrames['arrows'][1], VIRTUAL_WIDTH / 4 - 24,
+    love.graphics.draw(GTextures['arrows'], GFrames['arrows'][1], VIRTUAL_WIDTH / 4 - 24,
         VIRTUAL_HEIGHT - VIRTUAL_HEIGHT / 3)
    
     -- reset drawing color to full white for proper rendering
@@ -90,13 +90,13 @@ function PaddleSelectState:render()
         love.graphics.setColor(40/255, 40/255, 40/255, 128)
     end
     
-    love.graphics.draw(gTextures['arrows'], gFrames['arrows'][2], VIRTUAL_WIDTH - VIRTUAL_WIDTH / 4,
+    love.graphics.draw(GTextures['arrows'], GFrames['arrows'][2], VIRTUAL_WIDTH - VIRTUAL_WIDTH / 4,
         VIRTUAL_HEIGHT - VIRTUAL_HEIGHT / 3)
     
     -- reset drawing color to full white for proper rendering
     love.graphics.setColor(1, 1, 1, 1)
 
     -- draw the paddle itself, based on which we have selected
-    love.graphics.draw(gTextures['main'], gFrames['paddles'][2 + 4 * (self.currentPaddle - 1)],
+    love.graphics.draw(GTextures['main'], GFrames['paddles'][2 + 4 * (self.currentPaddle - 1)],
         VIRTUAL_WIDTH / 2 - 32, VIRTUAL_HEIGHT - VIRTUAL_HEIGHT / 3)
 end

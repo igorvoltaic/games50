@@ -39,7 +39,7 @@ function ServeState:update(dt)
 
     if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
         -- pass in all important state info to the PlayState
-        gStateMachine:change('play', {
+        GStateMachine:change('play', {
             paddle = self.paddle,
             bricks = self.bricks,
             health = self.health,
@@ -64,14 +64,14 @@ function ServeState:render()
         brick:render()
     end
 
-    renderScore(self.score)
-    renderHealth(self.health)
+    RenderScore(self.score)
+    RenderHealth(self.health)
 
-    love.graphics.setFont(gFonts['large'])
+    love.graphics.setFont(GFonts['large'])
     love.graphics.printf('Level ' .. tostring(self.level), 0, VIRTUAL_HEIGHT / 3,
         VIRTUAL_WIDTH, 'center')
 
-    love.graphics.setFont(gFonts['medium'])
+    love.graphics.setFont(GFonts['medium'])
     love.graphics.printf('Press Enter to serve!', 0, VIRTUAL_HEIGHT / 2,
         VIRTUAL_WIDTH, 'center')
 end

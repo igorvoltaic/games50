@@ -43,15 +43,15 @@ function love.load()
     love.window.setTitle('Breakout')
 
     -- initialize our nice-looking retro text fonts
-    gFonts = {
+    GFonts = {
         ['small'] = love.graphics.newFont('fonts/font.ttf', 8),
         ['medium'] = love.graphics.newFont('fonts/font.ttf', 16),
         ['large'] = love.graphics.newFont('fonts/font.ttf', 32)
     }
-    love.graphics.setFont(gFonts['small'])
+    love.graphics.setFont(GFonts['small'])
 
     -- load up the graphics we'll be using throughout our states
-    gTextures = {
+    GTextures = {
         ['background'] = love.graphics.newImage('graphics/background.png'),
         ['main'] = love.graphics.newImage('graphics/breakout.png'),
         ['arrows'] = love.graphics.newImage('graphics/arrows.png'),
@@ -61,14 +61,14 @@ function love.load()
 
     -- Quads we will generate for all of our textures; Quads allow us
     -- to show only part of a texture and not the entire thing
-    gFrames = {
-        ['arrows'] = GenerateQuads(gTextures['arrows'], 24, 24),
-        ['paddles'] = GenerateQuadsPaddles(gTextures['main']),
-        ['balls'] = GenerateQuadsBalls(gTextures['main']),
-        ['bricks'] = GenerateQuadsBricks(gTextures['main']),
-        ['hearts'] = GenerateQuads(gTextures['hearts'], 10, 9)
+    GFrames = {
+        ['arrows'] = GenerateQuads(GTextures['arrows'], 24, 24),
+        ['paddles'] = GenerateQuadsPaddles(GTextures['main']),
+        ['balls'] = GenerateQuadsBalls(GTextures['main']),
+        ['bricks'] = GenerateQuadsBricks(GTextures['main']),
+        ['hearts'] = GenerateQuads(GTextures['hearts'], 10, 9)
     }
-    
+
     -- initialize our virtual resolution, which will be rendered within our
     -- actual window no matter its dimensions
     push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, {
@@ -79,7 +79,7 @@ function love.load()
 
     -- set up our sound effects; later, we can just index this table and
     -- call each entry's `play` method
-    gSounds = {
+    GSounds = {
         ['paddle-hit'] = love.audio.newSource('sounds/paddle_hit.wav', 'static'),
         ['score'] = love.audio.newSource('sounds/score.wav', 'static'),
         ['wall-hit'] = love.audio.newSource('sounds/wall_hit.wav', 'static'),
@@ -108,7 +108,7 @@ function love.load()
     -- 4. 'play' (the ball is in play, bouncing between paddles)
     -- 5. 'victory' (the current level is over, with a victory jingle)
     -- 6. 'game-over' (the player has lost; display score and allow restart)
-    gStateMachine = StateMachine {
+    GStateMachine = StateMachine {
         ['start'] = function() return StartState() end,
         ['play'] = function() return PlayState() end,
         ['serve'] = function() return ServeState() end,
@@ -118,13 +118,13 @@ function love.load()
         ['enter-high-score'] = function() return EnterHighScoreState() end,
         ['paddle-select'] = function() return PaddleSelectState() end
     }
-    gStateMachine:change('start', {
-        highScores = loadHighScores()
+    GStateMachine:change('start', {
+        highScores = LoadHighScores()
     })
 
     -- play our music outside of all states and set it to looping
-    gSounds['music']:play()
-    gSounds['music']:setLooping(true)
+    GSounds['music']:play()
+    GSounds['music']:setLooping(true)
 
     -- a table we'll use to keep track of which keys have been pressed this
     -- frame, to get around the fact that LÖVE's default callback won't let us
@@ -152,7 +152,7 @@ end
 ]]
 function love.update(dt)
     -- this time, we pass in dt to the state object we're currently using
-    gStateMachine:update(dt)
+    GStateMachine:update(dt)
 
     -- reset keys pressed
     love.keyboard.keysPressed = {}
@@ -192,23 +192,23 @@ function love.draw()
 
     -- background should be drawn regardless of state, scaled to fit our
     -- virtual resolution
-    local backgroundWidth = gTextures['background']:getWidth()
-    local backgroundHeight = gTextures['background']:getHeight()
+    local backgroundWidth = GTextures['background']:getWidth()
+    local backgroundHeight = GTextures['background']:getHeight()
 
-    love.graphics.draw(gTextures['background'], 
+    love.graphics.draw(GTextures['background'],
         -- draw at coordinates 0, 0
-        0, 0, 
+        0, 0,
         -- no rotation
         0,
         -- scale factors on X and Y axis so it fills the screen
         VIRTUAL_WIDTH / (backgroundWidth - 1), VIRTUAL_HEIGHT / (backgroundHeight - 1))
-    
+
     -- use the state machine to defer rendering to the current state we're in
-    gStateMachine:render()
-    
+    GStateMachine:render()
+
     -- display FPS for debugging; simply comment out to remove
-    displayFPS()
-    
+    DisplayFPS()
+
     push:apply('end')
 end
 
@@ -216,7 +216,7 @@ end
     Loads high scores from a .lst file, saved in LÖVE2D's default save directory in a subfolder
     called 'breakout'.
 ]]
-function loadHighScores()
+function LoadHighScores()
     love.filesystem.setIdentity('breakout')
 
     -- if the file doesn't exist, initialize it with some default scores
@@ -232,7 +232,6 @@ function loadHighScores()
 
     -- flag for whether we're reading a name or not
     local name = true
-    local currentName = nil
     local counter = 1
 
     -- initialize scores table with at least 10 blank entries
@@ -266,19 +265,19 @@ end
     Renders hearts based on how much health the player has. First renders
     full hearts, then empty hearts for however much health we're missing.
 ]]
-function renderHealth(health)
+function RenderHealth(health)
     -- start of our health rendering
     local healthX = VIRTUAL_WIDTH - 100
-    
+
     -- render health left
-    for i = 1, health do
-        love.graphics.draw(gTextures['hearts'], gFrames['hearts'][1], healthX, 4)
+    for _ = 1, health do
+        love.graphics.draw(GTextures['hearts'], GFrames['hearts'][1], healthX, 4)
         healthX = healthX + 11
     end
 
     -- render missing health
-    for i = 1, 3 - health do
-        love.graphics.draw(gTextures['hearts'], gFrames['hearts'][2], healthX, 4)
+    for _ = 1, 3 - health do
+        love.graphics.draw(GTextures['hearts'], GFrames['hearts'][2], healthX, 4)
         healthX = healthX + 11
     end
 end
@@ -286,9 +285,9 @@ end
 --[[
     Renders the current FPS.
 ]]
-function displayFPS()
+function DisplayFPS()
     -- simple FPS display across all states
-    love.graphics.setFont(gFonts['small'])
+    love.graphics.setFont(GFonts['small'])
     love.graphics.setColor(0, 1, 0, 1)
     love.graphics.print('FPS: ' .. tostring(love.timer.getFPS()), 5, 5)
 end
@@ -297,8 +296,8 @@ end
     Simply renders the player's score at the top right, with left-side padding
     for the score number.
 ]]
-function renderScore(score)
-    love.graphics.setFont(gFonts['small'])
+function RenderScore(score)
+    love.graphics.setFont(GFonts['small'])
     love.graphics.print('Score:', VIRTUAL_WIDTH - 60, 5)
     love.graphics.printf(tostring(score), VIRTUAL_WIDTH - 50, 5, 40, 'right')
 end

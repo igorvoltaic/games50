@@ -19,19 +19,19 @@ end
 function HighScoreState:update(dt)
     -- return to the start screen if we press escape
     if love.keyboard.wasPressed('escape') then
-        gSounds['wall-hit']:play()
+        GSounds['wall-hit']:play()
         
-        gStateMachine:change('start', {
+        GStateMachine:change('start', {
             highScores = self.highScores
         })
     end
 end
 
 function HighScoreState:render()
-    love.graphics.setFont(gFonts['large'])
+    love.graphics.setFont(GFonts['large'])
     love.graphics.printf('High Scores', 0, 20, VIRTUAL_WIDTH, 'center')
 
-    love.graphics.setFont(gFonts['medium'])
+    love.graphics.setFont(GFonts['medium'])
 
     -- iterate over all high score indices in our high scores table
     for i = 1, 10 do
@@ -51,7 +51,7 @@ function HighScoreState:render()
             60 + i * 13, 100, 'right')
     end
 
-    love.graphics.setFont(gFonts['small'])
+    love.graphics.setFont(GFonts['small'])
     love.graphics.printf("Press Escape to return to the main menu!",
         0, VIRTUAL_HEIGHT - 18, VIRTUAL_WIDTH, 'center')
 end

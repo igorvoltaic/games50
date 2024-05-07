@@ -36,14 +36,14 @@ function GameOverState:update(dt)
         end
 
         if highScore then
-            gSounds['high-score']:play()
-            gStateMachine:change('enter-high-score', {
+            GSounds['high-score']:play()
+            GStateMachine:change('enter-high-score', {
                 highScores = self.highScores,
                 score = self.score,
                 scoreIndex = highScoreIndex
             }) 
         else 
-            gStateMachine:change('start', {
+            GStateMachine:change('start', {
                 highScores = self.highScores
             }) 
         end
@@ -55,9 +55,9 @@ function GameOverState:update(dt)
 end
 
 function GameOverState:render()
-    love.graphics.setFont(gFonts['large'])
+    love.graphics.setFont(GFonts['large'])
     love.graphics.printf('GAME OVER', 0, VIRTUAL_HEIGHT / 3, VIRTUAL_WIDTH, 'center')
-    love.graphics.setFont(gFonts['medium'])
+    love.graphics.setFont(GFonts['medium'])
     love.graphics.printf('Final Score: ' .. tostring(self.score), 0, VIRTUAL_HEIGHT / 2,
         VIRTUAL_WIDTH, 'center')
     love.graphics.printf('Press Enter!', 0, VIRTUAL_HEIGHT - VIRTUAL_HEIGHT / 4,

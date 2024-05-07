@@ -31,6 +31,8 @@ function PlayState:enter(params)
 
     self.recoverPoints = 5000
 
+    self.paddleResizeScoreDelta = 0
+
     -- give ball random starting velocity
     self.ball.dx = math.random(-200, 200)
     self.ball.dy = math.random(-50, -60)
@@ -81,8 +83,10 @@ function PlayState:update(dt)
         -- only check collision if we're in play
         if brick.inPlay and self.ball:collides(brick) then
 
-            -- add to score
-            self.score = self.score + (brick.tier * 200 + brick.color * 25)
+            -- add to score and paddle resize delta
+            local scoreToAdd = (brick.tier * 200 + brick.color * 25)
+            self.score = self.score + scoreToAdd
+            self.paddleResizeScoreDelta = self.paddleResizeScoreDelta + scoreToAdd
 
             -- trigger the brick's hit function, which removes it from play
             brick:hit()
@@ -97,6 +101,21 @@ function PlayState:update(dt)
 
                 -- play recover sound effect
                 GSounds['recover']:play()
+            end
+
+            -- if we have enoght points, resize a paddle
+            if self.paddleResizeScoreDelta >= 500 * self.paddle.size then
+                -- play recover sound effect
+                if self.paddle.size < 4 then
+                  GSounds['recover']:play()
+                end
+
+                -- resize paddle: change size to select correct sprite and change actual width 
+                self.paddle.size = math.min(4, self.paddle.size + 1)
+                self.paddle.width = 2 * 16 * self.paddle.size
+
+                -- reset resize counter
+                self.paddleResizeScoreDelta = 0
             end
 
             -- go to our victory screen if there are no more bricks left
@@ -184,6 +203,12 @@ function PlayState:update(dt)
                 level = self.level,
                 recoverPoints = self.recoverPoints
             })
+
+          -- resize paddle: change size to select correct sprite and change actual width 
+          self.paddle.size = math.max(1, self.paddle.size - 1)
+          self.paddle.width = 2 * 16 * self.paddle.size
+          -- reset resize counter
+          self.paddleResizeScoreDelta = 0
         end
     end
 

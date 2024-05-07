@@ -2,8 +2,7 @@
     GD50
     Breakout Remake
 
-    Author: Colton Ogden
-    cogden@cs50.harvard.edu
+    Author: Colton Ogden cogden@cs50.harvard.edu
 
     Originally developed by Atari in 1976. An effective evolution of
     Pong, Breakout ditched the two-player mechanic in favor of a single-

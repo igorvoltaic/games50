@@ -17,8 +17,7 @@ Ball = Class{}
 
 function Ball:init(skin)
     -- simple positional and dimensional variables
-    self.width = 8
-    self.height = 8
+    self.diameter = 8
 
     -- these variables are for keeping track of our velocity on both the
     -- X and Y axis, since the ball can move in two dimensions
@@ -37,15 +36,15 @@ end
 function Ball:collides(target)
     -- first, check to see if the left edge of either is farther to the right
     -- than the right edge of the other
-    if self.x > target.x + target.width or target.x > self.x + self.width then
+    if self.x > target.x + target.width or target.x > self.x + self.diameter then
         return false
     end
 
     -- then check to see if the bottom edge of either is higher than the top
     -- edge of the other
-    if self.y > target.y + target.height or target.y > self.y + self.height then
+    if self.y > target.y + target.height or target.y > self.y + self.diameter then
         return false
-    end 
+    end
 
     -- if the above aren't true, they're overlapping
     return true
@@ -72,8 +71,8 @@ function Ball:update(dt)
         GSounds['wall-hit']:play()
     end
 
-    if self.x >= VIRTUAL_WIDTH - 8 then
-        self.x = VIRTUAL_WIDTH - 8
+    if self.x >= VIRTUAL_WIDTH - self.diameter then
+        self.x = VIRTUAL_WIDTH - self.diameter
         self.dx = -self.dx
         GSounds['wall-hit']:play()
     end

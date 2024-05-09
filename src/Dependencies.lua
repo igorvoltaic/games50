@@ -3,7 +3,7 @@
 -- a more retro aesthetic
 --
 -- https://github.com/Ulydev/push
-push = require 'lib/push'
+Push = require 'lib/push'
 
 -- the "Class" library we're using will allow us to represent anything in
 -- our game as code, rather than keeping track of many disparate variables and
@@ -20,6 +20,9 @@ require 'src/Ball'
 
 -- the entities in our game map that give us points when we collide with them
 require 'src/Brick'
+
+-- the falling entities in our game that give us bonuses when we catch with them
+require 'src/Powerup'
 
 -- a class used to generate our brick layouts (levels)
 require 'src/LevelMaker'

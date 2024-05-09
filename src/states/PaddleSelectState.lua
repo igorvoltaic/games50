@@ -24,7 +24,7 @@ function PaddleSelectState:init()
     self.currentPaddle = 1
 end
 
-function PaddleSelectState:update(dt)
+function PaddleSelectState:update()
     if love.keyboard.wasPressed('left') then
         if self.currentPaddle == 1 then
             GSounds['no-select']:play()
@@ -47,7 +47,7 @@ function PaddleSelectState:update(dt)
 
         GStateMachine:change('serve', {
             paddle = Paddle(self.currentPaddle),
-            bricks = LevelMaker.createMap(1),
+            bricks = LevelMaker:createMap(1),
             health = 3,
             score = 0,
             highScores = self.highScores,
@@ -69,17 +69,17 @@ function PaddleSelectState:render()
     love.graphics.setFont(GFonts['small'])
     love.graphics.printf("(Press Enter to continue!)", 0, VIRTUAL_HEIGHT / 3,
         VIRTUAL_WIDTH, 'center')
-        
+
     -- left arrow; should render normally if we're higher than 1, else
     -- in a shadowy form to let us know we're as far left as we can go
     if self.currentPaddle == 1 then
         -- tint; give it a dark gray with half opacity
         love.graphics.setColor(40/255, 40/255, 40/255, 128/255)
     end
-    
+
     love.graphics.draw(GTextures['arrows'], GFrames['arrows'][1], VIRTUAL_WIDTH / 4 - 24,
         VIRTUAL_HEIGHT - VIRTUAL_HEIGHT / 3)
-   
+
     -- reset drawing color to full white for proper rendering
     love.graphics.setColor(1, 1, 1, 1)
 
@@ -89,10 +89,10 @@ function PaddleSelectState:render()
         -- tint; give it a dark gray with half opacity
         love.graphics.setColor(40/255, 40/255, 40/255, 128)
     end
-    
+
     love.graphics.draw(GTextures['arrows'], GFrames['arrows'][2], VIRTUAL_WIDTH - VIRTUAL_WIDTH / 4,
         VIRTUAL_HEIGHT - VIRTUAL_HEIGHT / 3)
-    
+
     -- reset drawing color to full white for proper rendering
     love.graphics.setColor(1, 1, 1, 1)
 

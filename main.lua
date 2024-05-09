@@ -55,7 +55,8 @@ function love.load()
         ['main'] = love.graphics.newImage('graphics/breakout.png'),
         ['arrows'] = love.graphics.newImage('graphics/arrows.png'),
         ['hearts'] = love.graphics.newImage('graphics/hearts.png'),
-        ['particle'] = love.graphics.newImage('graphics/particle.png')
+        ['particle'] = love.graphics.newImage('graphics/particle.png'),
+        ['powerups'] = love.graphics.newImage('graphics/powerups.png')
     }
 
     -- Quads we will generate for all of our textures; Quads allow us
@@ -65,12 +66,14 @@ function love.load()
         ['paddles'] = GenerateQuadsPaddles(GTextures['main']),
         ['balls'] = GenerateQuadsBalls(GTextures['main']),
         ['bricks'] = GenerateQuadsBricks(GTextures['main']),
-        ['hearts'] = GenerateQuads(GTextures['hearts'], 10, 9)
+        ['keybrick'] = GenerateQuadKeyBrick(GTextures['main']),
+        ['hearts'] = GenerateQuads(GTextures['hearts'], 10, 9),
+        ['powerups'] = GenerateQuads(GTextures['powerups'], 16, 16)
     }
 
     -- initialize our virtual resolution, which will be rendered within our
     -- actual window no matter its dimensions
-    push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, {
+    Push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, {
         vsync = true,
         fullscreen = false,
         resizable = true
@@ -138,7 +141,7 @@ end
     `h` variable representing width and height, respectively.
 ]]
 function love.resize(w, h)
-    push:resize(w, h)
+    Push:resize(w, h)
 end
 
 --[[
@@ -187,7 +190,7 @@ end
 ]]
 function love.draw()
     -- begin drawing with push, in our virtual resolution
-    push:apply('start')
+    Push:apply('start')
 
     -- background should be drawn regardless of state, scaled to fit our
     -- virtual resolution
@@ -208,7 +211,7 @@ function love.draw()
     -- display FPS for debugging; simply comment out to remove
     DisplayFPS()
 
-    push:apply('end')
+    Push:apply('end')
 end
 
 --[[
@@ -279,6 +282,14 @@ function RenderHealth(health)
         love.graphics.draw(GTextures['hearts'], GFrames['hearts'][2], healthX, 4)
         healthX = healthX + 11
     end
+end
+
+function RenderKeyPowerup(keyPowerupActive)
+  local powerupX = VIRTUAL_WIDTH - 120
+  -- render key powerup
+  if keyPowerupActive then
+    love.graphics.draw(GTextures['powerups'], GFrames['powerups'][10], powerupX, 4, 0, 0.6, 0.6)
+  end
 end
 
 --[[

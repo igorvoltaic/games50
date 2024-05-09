@@ -57,7 +57,7 @@ function StartState:render()
     love.graphics.setFont(GFonts['large'])
     love.graphics.printf("BREAKOUT", 0, VIRTUAL_HEIGHT / 3,
         VIRTUAL_WIDTH, 'center')
-    
+
     -- instructions
     love.graphics.setFont(GFonts['medium'])
 

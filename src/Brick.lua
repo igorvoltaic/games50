@@ -17,7 +17,7 @@
 Brick = Class{}
 
 -- some of the colors in our palette (to be used with particle systems)
-paletteColors = {
+PaletteColors = {
     -- blue
     [1] = {
         ['r'] = 99,
@@ -50,16 +50,16 @@ paletteColors = {
     }
 }
 
-function Brick:init(x, y)
+function Brick:init(x, y, isKey)
     -- used for coloring and score calculation
     self.tier = 0
     self.color = 1
-    
+
     self.x = x
     self.y = y
     self.width = 32
     self.height = 16
-    
+
     -- used to determine whether this brick should be rendered
     self.inPlay = true
 
@@ -78,24 +78,27 @@ function Brick:init(x, y)
 
     -- spread of particles; normal looks more natural than uniform
     self.psystem:setEmissionArea('normal', 10, 10)
+
+    -- is brick a key
+    self.isKey = isKey
 end
 
 --[[
     Triggers a hit on the brick, taking it out of play if at 0 health or
     changing its color otherwise.
 ]]
-function Brick:hit()
+function Brick:hit(keyPowerupActive)
     -- set the particle system to interpolate between two colors; in this case, we give
     -- it our self.color but with varying alpha; brighter for higher tiers, fading to 0
     -- over the particle's lifetime (the second color)
     self.psystem:setColors(
-        paletteColors[self.color].r / 255,
-        paletteColors[self.color].g / 255,
-        paletteColors[self.color].b / 255,
+        PaletteColors[self.color].r / 255,
+        PaletteColors[self.color].g / 255,
+        PaletteColors[self.color].b / 255,
         55 * (self.tier + 1) / 255,
-        paletteColors[self.color].r / 255,
-        paletteColors[self.color].g / 255,
-        paletteColors[self.color].b / 255,
+        PaletteColors[self.color].r / 255,
+        PaletteColors[self.color].g / 255,
+        PaletteColors[self.color].b / 255,
         0
     )
     self.psystem:emit(64)
@@ -106,14 +109,15 @@ function Brick:hit()
 
     -- if we're at a higher tier than the base, we need to go down a tier
     -- if we're already at the lowest color, else just go down a color
-    if self.tier > 0 then
+    local canHit = not self.isKey or self.isKey and keyPowerupActive
+    if self.tier > 0 and canHit then
         if self.color == 1 then
             self.tier = self.tier - 1
             self.color = 5
         else
             self.color = self.color - 1
         end
-    else
+    elseif canHit then
         -- if we're in the first tier and the base color, remove brick from play
         if self.color == 1 then
             self.inPlay = false
@@ -135,11 +139,15 @@ end
 
 function Brick:render()
     if self.inPlay then
-        love.graphics.draw(GTextures['main'], 
-            -- multiply color by 4 (-1) to get our color offset, then add tier to that
-            -- to draw the correct tier and color brick onto the screen
-            GFrames['bricks'][1 + ((self.color - 1) * 4) + self.tier],
-            self.x, self.y)
+        if self.isKey then
+          love.graphics.draw(GTextures['main'], GFrames['keybrick'][1], self.x, self.y)
+        else
+          love.graphics.draw(GTextures['main'],
+              -- multiply color by 4 (-1) to get our color offset, then add tier to that
+              -- to draw the correct tier and color brick onto the screen
+              GFrames['bricks'][1 + ((self.color - 1) * 4) + self.tier],
+              self.x, self.y)
+        end
     end
 end
 

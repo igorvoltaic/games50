@@ -41,11 +41,11 @@ end
 ]]
 function table.slice(tbl, first, last, step)
     local sliced = {}
-  
+
     for i = first or 1, last or #tbl, step or 1 do
       sliced[#sliced+1] = tbl[i]
     end
-  
+
     return sliced
 end
 
@@ -56,6 +56,10 @@ end
 ]]
 function GenerateQuadsBricks(atlas)
     return table.slice(GenerateQuads(atlas, 32, 16), 1, 21)
+end
+
+function GenerateQuadKeyBrick(atlas)
+    return table.slice(GenerateQuads(atlas, 32, 16), 24, 24)
 end
 
 --[[
@@ -70,7 +74,7 @@ function GenerateQuadsPaddles(atlas)
     local counter = 1
     local quads = {}
 
-    for i = 0, 3 do
+    for _ = 0, 3 do
         -- smallest
         quads[counter] = love.graphics.newQuad(x, y, 32, 16,
             atlas:getDimensions())
@@ -108,7 +112,7 @@ function GenerateQuadsBalls(atlas)
     local counter = 1
     local quads = {}
 
-    for i = 0, 3 do
+    for _ = 0, 3 do
         quads[counter] = love.graphics.newQuad(x, y, 8, 8, atlas:getDimensions())
         x = x + 8
         counter = counter + 1
@@ -117,7 +121,7 @@ function GenerateQuadsBalls(atlas)
     x = 96
     y = 56
 
-    for i = 0, 2 do
+    for _ = 0, 2 do
         quads[counter] = love.graphics.newQuad(x, y, 8, 8, atlas:getDimensions())
         x = x + 8
         counter = counter + 1

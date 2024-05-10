@@ -138,6 +138,7 @@ function PlayState:update(dt)
 
                 -- trigger the brick's hit function, which removes it from play
                 brick:hit(self.keyPowerupActive)
+                brick.isKey = false
 
                 -- do not drop powerups too often when there are more than one ball
                 local canDropPowerup = math.random() > self.powerupDropRate

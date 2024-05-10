@@ -26,15 +26,14 @@ function PlayState:enter(params)
     self.health = params.health
     self.score = params.score
     self.highScores = params.highScores
-    self.ball = params.ball
     self.level = params.level
 
     self.recoverPoints = 5000
 
     self.paddleResizeScoreDelta = 0
 
-    self.ball:send()
-    self.balls = {self.ball}
+    params.ball:send()
+    self.balls = {params.ball}
     self.ballCount = 1
 
     self.powerup = nil
@@ -115,11 +114,14 @@ function PlayState:update(dt)
         -- detect collision across all bricks with the ball
         for j, brick in pairs(self.bricks) do
 
+            -- increase powerup drop rate if that's the last brick and 
+            -- it is a locked brick
             if #self.bricks == 1 and brick.isKey then
                 self.keyPowerupDropRate = 0.5
                 self.powerupDropRate = 0.3
             end
 
+            -- remove bricks from table if not in play
             if not brick.inPlay then
                 table.remove(self.bricks, j)
             end
@@ -134,6 +136,7 @@ function PlayState:update(dt)
                 elseif brick.isKey and self.keyPowerupActive then
                     self.score = self.score + scoreToAdd
                 end
+                -- count score to resize paddle
                 self.paddleResizeScoreDelta = self.paddleResizeScoreDelta + scoreToAdd
 
                 -- trigger the brick's hit function, which removes it from play
@@ -146,7 +149,9 @@ function PlayState:update(dt)
                    canDropPowerup = math.random() > self.powerupDropRate + 0.1 * (self.ballCount - 1)
                 end
 
+                -- only drop powerups if there is none falling at the moment
                 if self.powerup == nil and canDropPowerup then
+                    -- do not drop key powerups too often
                     local isKey = math.random() > self.keyPowerupDropRate
                     self.powerup = Powerup(brick.x + 8, brick.y + 16 , isKey)
                 end
@@ -268,6 +273,7 @@ function PlayState:render()
     RenderHealth(self.health)
     if self.keyPowerupCounter > 10 then
         RenderKeyPowerup(self.keyPowerupActive)
+    -- blink key powerup sign if there is less than 10 seconds left before fading away
     elseif math.fmod(math.floor(self.keyPowerupCounter * 10), 2) > 0 then
         RenderKeyPowerup(self.keyPowerupActive)
     end

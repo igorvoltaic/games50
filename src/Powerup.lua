@@ -19,7 +19,6 @@ function Powerup:init(x, y, isKey)
   self.x = x
   self.y = y
 
-  -- these variables are for keeping track of our velocity on both the
   -- X always equals to 0, since the powerup can move only downwards
   -- Speed is random in the range of 34 to 48
   self.dy = 33 + math.random(15)

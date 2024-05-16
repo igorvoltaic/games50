@@ -45,7 +45,7 @@ VIRTUAL_HEIGHT = 288
 BACKGROUND_SCROLL_SPEED = 80
 
 function love.load()
-    
+
     -- window bar title
     love.window.setTitle('Match 3')
 
@@ -53,7 +53,7 @@ function love.load()
     math.randomseed(os.time())
 
     -- initialize our virtual resolution
-    push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, {
+    Push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, {
         vsync = true,
         fullscreen = false,
         resizable = true,
@@ -61,31 +61,31 @@ function love.load()
     })
 
     -- set music to loop and start
-    gSounds['music']:setLooping(true)
-    gSounds['music']:play()
+    GSounds['music']:setLooping(true)
+    GSounds['music']:play()
 
     -- initialize state machine with all state-returning functions
-    gStateMachine = StateMachine {
+    GStateMachine = StateMachine {
         ['start'] = function() return StartState() end,
         ['begin-game'] = function() return BeginGameState() end,
         ['play'] = function() return PlayState() end,
         ['game-over'] = function() return GameOverState() end
     }
-    gStateMachine:change('start')
+    GStateMachine:change('start')
 
     -- keep track of scrolling our background on the X axis
-    backgroundX = 0
+    BackgroundX = 0
 
     -- initialize input table
     love.keyboard.keysPressed = {}
 end
 
 function love.resize(w, h)
-    push:resize(w, h)
+    Push:resize(w, h)
 end
 
 function love.keypressed(key)
-    
+
     -- add to our table of keys pressed this frame
     love.keyboard.keysPressed[key] = true
 end
@@ -99,26 +99,26 @@ function love.keyboard.wasPressed(key)
 end
 
 function love.update(dt)
-    
+
     -- scroll background, used across all states
-    backgroundX = backgroundX - BACKGROUND_SCROLL_SPEED * dt
-    
+    BackgroundX = BackgroundX - BACKGROUND_SCROLL_SPEED * dt
+
     -- if we've scrolled the entire image, reset it to 0
-    if backgroundX <= -1024 + VIRTUAL_WIDTH - 4 + 51 then
-        backgroundX = 0
+    if BackgroundX <= -1024 + VIRTUAL_WIDTH - 4 + 51 then
+        BackgroundX = 0
     end
 
-    gStateMachine:update(dt)
+    GStateMachine:update(dt)
 
     love.keyboard.keysPressed = {}
 end
 
 function love.draw()
-    push:start()
+    Push:start()
 
     -- scrolling background drawn behind every state
-    love.graphics.draw(gTextures['background'], backgroundX, 0)
-    
-    gStateMachine:render()
-    push:finish()
+    love.graphics.draw(GTextures['background'], BackgroundX, 0)
+
+    GStateMachine:render()
+    Push:finish()
 end

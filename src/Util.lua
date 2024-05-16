@@ -24,13 +24,13 @@ function GenerateTileQuads(atlas)
     local counter = 1
 
     -- 9 rows of tiles
-    for row = 1, 9 do
-        
+    for _ = 1, 9 do
+
         -- two sets of 6 cols, different tile varietes
-        for i = 1, 2 do
+        for _ = 1, 2 do
             tiles[counter] = {}
-            
-            for col = 1, 6 do
+
+            for _ = 1, 6 do
                 table.insert(tiles[counter], love.graphics.newQuad(
                     x, y, 32, 32, atlas:getDimensions()
                 ))
@@ -50,7 +50,7 @@ end
     Recursive table printing function.
     https://coronalabs.com/blog/2014/09/02/tutorial-printing-table-contents/
 ]]
-function print_r ( t )
+function Print_r(t)
     local print_r_cache={}
     local function sub_print_r(t,indent)
         if (print_r_cache[tostring(t)]) then

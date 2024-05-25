@@ -33,7 +33,8 @@ function Board:initializeTiles()
         for tileX = 1, 8 do
             -- create a new tile at X,Y with a random color and variety
             local variety = math.random(math.min(6, self.level))
-            table.insert(self.tiles[tileY], Tile(tileX, tileY, math.random(18), variety))
+            local offset = math.random(1,10)
+            table.insert(self.tiles[tileY], Tile(tileX, tileY, math.random(offset,offset+8), variety))
         end
     end
 
@@ -274,6 +275,50 @@ function Board:getFallingTiles()
 
     return tweens
 end
+
+
+function Board:swapResultsMatch(t1, t2)
+    self.tiles[t2.gridY][t2.gridX] = t1
+    self.tiles[t1.gridY][t1.gridX] = t2
+
+    local matches = self:calculateMatches()
+
+    self.tiles[t1.gridY][t1.gridX] = t1
+    self.tiles[t2.gridY][t2.gridX] = t2
+
+    return matches
+end
+
+
+function Board:isValid()
+    for y = 1, 8 do
+       for x = 1, 8 do
+          local cur = self.tiles[y][x]
+          if y < 8 then
+              if self:swapResultsMatch(cur, self.tiles[y+1][x]) then
+                  return true
+              end
+          end
+          if y > 1 then
+              if self:swapResultsMatch(cur, self.tiles[y-1][x]) then
+                  return true
+              end
+          end
+          if x < 8 then
+              if self:swapResultsMatch(cur, self.tiles[y][x+1]) then
+                  return true
+              end
+          end
+          if x > 1 then
+              if self:swapResultsMatch(cur, self.tiles[y][x-1]) then
+                  return true
+              end
+          end
+       end
+    end
+    return false
+end
+
 
 function Board:render()
     for y = 1, #self.tiles do

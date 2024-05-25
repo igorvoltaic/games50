@@ -26,6 +26,7 @@ function Tile:init(x, y, color, variety)
     -- tile appearance/points
     self.color = color
     self.variety = variety
+    self.isShiny = math.random() > 0.95
 end
 
 function Tile:render(x, y)
@@ -39,4 +40,19 @@ function Tile:render(x, y)
     love.graphics.setColor(255, 255, 255, 255)
     love.graphics.draw(GTextures['main'], GFrames['tiles'][self.color][self.variety],
         self.x + x, self.y + y)
+
+    -- render highlighted tile if it exists
+    if self.isShiny then
+
+        -- multiply so drawing white rect makes it brighter
+        love.graphics.setBlendMode('add')
+
+        love.graphics.setColor(1, 1, 1, 56/255)
+        love.graphics.rectangle('fill', (self.gridX - 1) * 32 + (VIRTUAL_WIDTH - 272) + 7,
+            (self.gridY - 1) * 32 + 16 + 7, 18, 18, 4)
+
+        -- back to alpha
+        love.graphics.setBlendMode('alpha')
+    end
+
 end

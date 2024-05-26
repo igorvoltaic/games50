@@ -23,7 +23,7 @@ Timer = require 'lib/knife.timer'
 --
 
 -- utility
-require 'src/constants'
+require 'src/config/constants'
 require 'src/StateMachine'
 require 'src/Util'
 

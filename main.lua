@@ -4,7 +4,7 @@
 
     Author: Colton Ogden
     cogden@cs50.harvard.edu
-    
+
     A classic platformer in the style of Super Mario Bros., using a free
     art pack. Super Mario Bros. was instrumental in the resurgence of video
     games in the mid-80s, following the infamous crash shortly after the
@@ -23,33 +23,33 @@ love.graphics.setDefaultFilter('nearest', 'nearest')
 require 'src/Dependencies'
 
 function love.load()
-    love.graphics.setFont(gFonts['medium'])
+    love.graphics.setFont(GFonts['medium'])
     love.window.setTitle('Super 50 Bros.')
 
     math.randomseed(os.time())
-    
-    push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, {
+
+    Push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, {
         fullscreen = false,
         vsync = true,
         resizable = true,
         canvas = false
     })
 
-    gStateMachine = StateMachine {
+    GStateMachine = StateMachine {
         ['start'] = function() return StartState() end,
         ['play'] = function() return PlayState() end
     }
-    gStateMachine:change('start')
+    GStateMachine:change('start')
 
-    gSounds['music']:setLooping(true)
-    gSounds['music']:setVolume(0.5)
-    gSounds['music']:play()
+    GSounds['music']:setLooping(true)
+    GSounds['music']:setVolume(0.5)
+    GSounds['music']:play()
 
     love.keyboard.keysPressed = {}
 end
 
 function love.resize(w, h)
-    push:resize(w, h)
+    Push:resize(w, h)
 end
 
 function love.keypressed(key)
@@ -65,13 +65,13 @@ function love.keyboard.wasPressed(key)
 end
 
 function love.update(dt)
-    gStateMachine:update(dt)
+    GStateMachine:update(dt)
 
     love.keyboard.keysPressed = {}
 end
 
 function love.draw()
-    push:start()
-    gStateMachine:render()
-    push:finish()
+    Push:start()
+    GStateMachine:render()
+    Push:finish()
 end

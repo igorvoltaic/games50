@@ -58,23 +58,23 @@ end
 
 function PlayState:render()
     love.graphics.push()
-    love.graphics.draw(gTextures['backgrounds'], gFrames['backgrounds'][self.background], math.floor(-self.backgroundX), 0)
-    love.graphics.draw(gTextures['backgrounds'], gFrames['backgrounds'][self.background], math.floor(-self.backgroundX),
-        gTextures['backgrounds']:getHeight() / 3 * 2, 0, 1, -1)
-    love.graphics.draw(gTextures['backgrounds'], gFrames['backgrounds'][self.background], math.floor(-self.backgroundX + 256), 0)
-    love.graphics.draw(gTextures['backgrounds'], gFrames['backgrounds'][self.background], math.floor(-self.backgroundX + 256),
-        gTextures['backgrounds']:getHeight() / 3 * 2, 0, 1, -1)
-    
+    love.graphics.draw(GTextures['backgrounds'], GFrames['backgrounds'][self.background], math.floor(-self.backgroundX), 0)
+    love.graphics.draw(GTextures['backgrounds'], GFrames['backgrounds'][self.background], math.floor(-self.backgroundX),
+        GTextures['backgrounds']:getHeight() / 3 * 2, 0, 1, -1)
+    love.graphics.draw(GTextures['backgrounds'], GFrames['backgrounds'][self.background], math.floor(-self.backgroundX + 256), 0)
+    love.graphics.draw(GTextures['backgrounds'], GFrames['backgrounds'][self.background], math.floor(-self.backgroundX + 256),
+        GTextures['backgrounds']:getHeight() / 3 * 2, 0, 1, -1)
+
     -- translate the entire view of the scene to emulate a camera
     love.graphics.translate(-math.floor(self.camX), -math.floor(self.camY))
-    
+
     self.level:render()
 
     self.player:render()
     love.graphics.pop()
-    
+
     -- render score
-    love.graphics.setFont(gFonts['medium'])
+    love.graphics.setFont(GFonts['medium'])
     love.graphics.setColor(0, 0, 0, 1)
     love.graphics.print(tostring(self.player.score), 5, 5)
     love.graphics.setColor(1, 1, 1, 1)
@@ -109,7 +109,7 @@ function PlayState:spawnEnemies()
 
                     -- random chance, 1 in 20
                     if math.random(20) == 1 then
-                        
+
                         -- instantiate snail, declaring in advance so we can pass it into state machine
                         local snail
                         snail = Snail {

@@ -15,11 +15,11 @@
 -- libraries
 --
 Class = require 'lib/class'
-push = require 'lib/push'
+Push = require 'lib/push'
 Timer = require 'lib/knife.timer'
 
 --
--- our own code
+-- here go dragons
 --
 
 -- utility
@@ -54,7 +54,7 @@ require 'src/Tile'
 require 'src/TileMap'
 
 
-gSounds = {
+GSounds = {
     ['jump'] = love.audio.newSource('sounds/jump.wav', 'static'),
     ['death'] = love.audio.newSource('sounds/death.wav', 'static'),
     ['music'] = love.audio.newSource('sounds/music.wav', 'static'),
@@ -65,7 +65,7 @@ gSounds = {
     ['kill2'] = love.audio.newSource('sounds/kill2.wav', 'static')
 }
 
-gTextures = {
+GTextures = {
     ['tiles'] = love.graphics.newImage('graphics/tiles.png'),
     ['toppers'] = love.graphics.newImage('graphics/tile_tops.png'),
     ['bushes'] = love.graphics.newImage('graphics/bushes_and_cacti.png'),
@@ -76,27 +76,27 @@ gTextures = {
     ['creatures'] = love.graphics.newImage('graphics/creatures.png')
 }
 
-gFrames = {
-    ['tiles'] = GenerateQuads(gTextures['tiles'], TILE_SIZE, TILE_SIZE),
-    
-    ['toppers'] = GenerateQuads(gTextures['toppers'], TILE_SIZE, TILE_SIZE),
-    
-    ['bushes'] = GenerateQuads(gTextures['bushes'], 16, 16),
-    ['jump-blocks'] = GenerateQuads(gTextures['jump-blocks'], 16, 16),
-    ['gems'] = GenerateQuads(gTextures['gems'], 16, 16),
-    ['backgrounds'] = GenerateQuads(gTextures['backgrounds'], 256, 128),
-    ['green-alien'] = GenerateQuads(gTextures['green-alien'], 16, 20),
-    ['creatures'] = GenerateQuads(gTextures['creatures'], 16, 16)
+GFrames = {
+    ['tiles'] = GenerateQuads(GTextures['tiles'], TILE_SIZE, TILE_SIZE),
+
+    ['toppers'] = GenerateQuads(GTextures['toppers'], TILE_SIZE, TILE_SIZE),
+
+    ['bushes'] = GenerateQuads(GTextures['bushes'], 16, 16),
+    ['jump-blocks'] = GenerateQuads(GTextures['jump-blocks'], 16, 16),
+    ['gems'] = GenerateQuads(GTextures['gems'], 16, 16),
+    ['backgrounds'] = GenerateQuads(GTextures['backgrounds'], 256, 128),
+    ['green-alien'] = GenerateQuads(GTextures['green-alien'], 16, 20),
+    ['creatures'] = GenerateQuads(GTextures['creatures'], 16, 16)
 }
 
 -- these need to be added after gFrames is initialized because they refer to gFrames from within
-gFrames['tilesets'] = GenerateTileSets(gFrames['tiles'], 
+GFrames['tilesets'] = GenerateTileSets(GFrames['tiles'],
     TILE_SETS_WIDE, TILE_SETS_TALL, TILE_SET_WIDTH, TILE_SET_HEIGHT)
 
-gFrames['toppersets'] = GenerateTileSets(gFrames['toppers'], 
+GFrames['toppersets'] = GenerateTileSets(GFrames['toppers'],
     TOPPER_SETS_WIDE, TOPPER_SETS_TALL, TILE_SET_WIDTH, TILE_SET_HEIGHT)
 
-gFonts = {
+GFonts = {
     ['small'] = love.graphics.newFont('fonts/font.ttf', 8),
     ['medium'] = love.graphics.newFont('fonts/font.ttf', 16),
     ['large'] = love.graphics.newFont('fonts/font.ttf', 32),

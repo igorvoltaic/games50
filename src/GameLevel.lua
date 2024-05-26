@@ -36,11 +36,11 @@ end
 function GameLevel:update(dt)
     self.tileMap:update(dt)
 
-    for k, object in pairs(self.objects) do
+    for _, object in pairs(self.objects) do
         object:update(dt)
     end
 
-    for k, entity in pairs(self.entities) do
+    for _, entity in pairs(self.entities) do
         entity:update(dt)
     end
 end
@@ -48,11 +48,11 @@ end
 function GameLevel:render()
     self.tileMap:render()
 
-    for k, object in pairs(self.objects) do
+    for _, object in pairs(self.objects) do
         object:render()
     end
 
-    for k, entity in pairs(self.entities) do
+    for _, entity in pairs(self.entities) do
         entity:render()
     end
 end

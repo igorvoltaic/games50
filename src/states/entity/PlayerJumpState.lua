@@ -60,6 +60,10 @@ function PlayerJumpState:update(dt)
         if object:collides(self.player) then
             if object.solid then
                 object.onCollide(object)
+                if object.isLock and self.player.keyPicked then
+                    table.remove(self.player.level.objects, k)
+                    self.player.level.unlocked = true
+                end
 
                 self.player.y = object.y + object.height
                 self.player.dy = 0

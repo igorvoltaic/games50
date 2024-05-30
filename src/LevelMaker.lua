@@ -183,7 +183,7 @@ function LevelMaker.generate(width, height)
 
                         -- make it a random variant
                         frame = math.random(1,4),
-                        collidable = true,
+                        collidable = false,
                         consumable = true,
                         solid = false,
 
@@ -200,8 +200,9 @@ function LevelMaker.generate(width, height)
                 isLockAdded = true
                 table.insert(objects,
 
-                    -- jump block
+                    -- lock block
                     GameObject {
+                        isLock = true,
                         texture = 'keys-and-locks',
                         width = TILE_SIZE,
                         height = TILE_SIZE,
@@ -211,21 +212,12 @@ function LevelMaker.generate(width, height)
                         -- make it a random variant
                         frame = math.random(5,8),
                         collidable = true,
-                        hit = false,
                         solid = true,
 
-                        -- collision function takes itself
                         onCollide = function(obj)
-
-                            -- spawn a gem if we haven't already hit the block
-                            if not obj.hit then
-
-                                GSounds['powerup-reveal']:play()
-
-                                obj.hit = true
-
-                            end
-
+                            GSounds['empty-block']:play()
+                            GSounds['powerup-reveal']:play()
+                            GSounds['pickup']:play()
                         end
                     }
                 )

@@ -22,6 +22,12 @@ function LevelMaker.generate(width, height)
     local tileset = math.random(20)
     local topperset = math.random(20)
 
+    -- locks and keys
+    local isKeyAdded = false
+    local isLockAdded = false
+    local keyLockRange = math.floor(width * 0.3)
+    local chance = 0
+
     -- insert blank tables into tiles for later access
     for _ = 1, height do
         table.insert(tiles, {})
@@ -30,6 +36,9 @@ function LevelMaker.generate(width, height)
     -- column by column generation instead of row; sometimes better for platformers
     for x = 1, width do
         tileID = TILE_ID_EMPTY
+        local isJumpBlockAdded = false
+        chance = (chance + keyLockRange / 100)
+        local chancePercent = math.floor(chance / keyLockRange * 100)
 
         -- lay out the empty space
         for y = 1, 6 do
@@ -97,15 +106,16 @@ function LevelMaker.generate(width, height)
 
             -- chance to spawn a block
             if math.random(10) == 1 then
+                isJumpBlockAdded = true
                 table.insert(objects,
 
                     -- jump block
                     GameObject {
                         texture = 'jump-blocks',
+                        width = TILE_SIZE,
+                        height = TILE_SIZE,
                         x = (x - 1) * TILE_SIZE,
                         y = (blockHeight - 1) * TILE_SIZE,
-                        width = 16,
-                        height = 16,
 
                         -- make it a random variant
                         frame = math.random(#JUMP_BLOCKS),
@@ -154,6 +164,68 @@ function LevelMaker.generate(width, height)
                             end
 
                             GSounds['empty-block']:play()
+                        end
+                    }
+                )
+            end
+
+            if math.random(100) <= chancePercent and x > width * 0.2 and not isKeyAdded and not isJumpBlockAdded then
+                isKeyAdded = true
+                table.insert(objects,
+
+                    -- jump block
+                    GameObject {
+                        texture = 'keys-and-locks',
+                        width = TILE_SIZE,
+                        height = TILE_SIZE,
+                        x = (x - 1) * TILE_SIZE,
+                        y = (blockHeight - 1) * TILE_SIZE,
+
+                        -- make it a random variant
+                        frame = math.random(1,4),
+                        collidable = true,
+                        consumable = true,
+                        solid = false,
+
+                        -- gem has its own function to add to the player's score
+                        onConsume = function(player, object)
+                            GSounds['pickup']:play()
+                            player.keyPicked = true
+                        end
+                    }
+                )
+            end
+
+            if math.random(100) <= chancePercent and x > width * 0.5 and not isLockAdded and not isJumpBlockAdded then
+                isLockAdded = true
+                table.insert(objects,
+
+                    -- jump block
+                    GameObject {
+                        texture = 'keys-and-locks',
+                        width = TILE_SIZE,
+                        height = TILE_SIZE,
+                        x = (x - 1) * TILE_SIZE,
+                        y = (blockHeight - 1) * TILE_SIZE,
+
+                        -- make it a random variant
+                        frame = math.random(5,8),
+                        collidable = true,
+                        hit = false,
+                        solid = true,
+
+                        -- collision function takes itself
+                        onCollide = function(obj)
+
+                            -- spawn a gem if we haven't already hit the block
+                            if not obj.hit then
+
+                                GSounds['powerup-reveal']:play()
+
+                                obj.hit = true
+
+                            end
+
                         end
                     }
                 )

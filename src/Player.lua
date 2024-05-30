@@ -13,10 +13,14 @@ Player = Class{__includes = Entity}
 function Player:init(def)
     Entity.init(self, def)
     self.score = 0
+    self.keyPicked = false
 end
 
 function Player:update(dt)
     Entity.update(self, dt)
+    if love.keyboard.wasPressed('r') then
+        GStateMachine:change('play')
+    end
 end
 
 function Player:render()

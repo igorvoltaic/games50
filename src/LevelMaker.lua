@@ -47,7 +47,7 @@ function LevelMaker.generate(width, height)
         end
 
         -- chance to just be emptiness
-        if math.random(7) == 1 then
+        if math.random(7) == 1 and x < width - 5 then
             for y = 7, height do
                 table.insert(tiles[y],
                     Tile(x, y, tileID, nil, tileset, topperset))
@@ -64,7 +64,7 @@ function LevelMaker.generate(width, height)
             end
 
             -- chance to generate a pillar
-            if math.random(8) == 1 then
+            if math.random(8) == 1 and x < width - 5 then
                 blockHeight = 2
 
                 -- chance to generate bush on pillar
@@ -105,7 +105,7 @@ function LevelMaker.generate(width, height)
             end
 
             -- chance to spawn a block
-            if math.random(10) == 1 then
+            if math.random(10) == 1 and x < width - 5 then
                 isJumpBlockAdded = true
                 table.insert(objects,
 

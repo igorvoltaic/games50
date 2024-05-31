@@ -7,10 +7,10 @@
 
 PlayState = Class{__includes = BaseState}
 
-function PlayState:init()
+function PlayState:enter(params)
     self.camX = 0
     self.camY = 0
-    self.level = LevelMaker.generate(100, 10)
+    self.level = LevelMaker.generate(params.levelWidth, 10)
     self.tileMap = self.level.tileMap
     self.background = math.random(3)
     self.backgroundX = 0
@@ -29,6 +29,7 @@ function PlayState:init()
     end
 
     self.player = Player({
+        score = params.playerScore,
         x = self.startColumn, y = 0,
         width = 16, height = 20,
         texture = 'green-alien',

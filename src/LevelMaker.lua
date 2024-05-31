@@ -218,6 +218,47 @@ function LevelMaker.generate(width, height)
                             GSounds['empty-block']:play()
                             GSounds['powerup-reveal']:play()
                             GSounds['pickup']:play()
+
+                            local flagPole = GameObject {
+                                texture = 'flag-poles',
+                                x = (width - 2) * TILE_SIZE,
+                                y = 48,
+                                width = 16,
+                                height = 48,
+                                frame = math.random(1,6),
+                                collidable = false,
+                                consumable = true,
+                                solid = false,
+
+                                onConsume = function (player, obj)
+                                    GStateMachine:change('play', {
+                                      playerScore = player.score,
+                                      levelWidth = width * 1.1
+                                    })
+                                end
+                            }
+
+                            local flag = GameObject {
+                                texture = 'flags',
+                                x = (width - 2) * TILE_SIZE + 10,
+                                y = 48 + 5,
+                                width = 16,
+                                height = 16,
+                                frame = math.random(1,6),
+                                collidable = false,
+                                consumable = true,
+                                solid = false,
+
+                                onConsume = function (player, obj)
+                                    GStateMachine:change('play', {
+                                      playerScore = player.score,
+                                      levelWidth = width * 1.1
+                                    })
+                                end
+                            }
+
+                            table.insert(objects, flagPole)
+                            table.insert(objects, flag)
                         end
                     }
                 )

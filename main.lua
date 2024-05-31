@@ -20,7 +20,7 @@
 ]]
 
 love.graphics.setDefaultFilter('nearest', 'nearest')
-require 'src/Dependencies'
+require 'src/config/Dependencies'
 
 function love.load()
     love.graphics.setFont(GFonts['medium'])

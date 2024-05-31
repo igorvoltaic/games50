@@ -12,7 +12,7 @@ Player = Class{__includes = Entity}
 
 function Player:init(def)
     Entity.init(self, def)
-    self.score = 0
+    self.score = def.score
     self.keyPicked = false
     self.unlockedLevel = false
 end
@@ -20,7 +20,10 @@ end
 function Player:update(dt)
     Entity.update(self, dt)
     if love.keyboard.wasPressed('r') then
-        GStateMachine:change('play')
+        GStateMachine:change('play', {
+          playerScore = 0,
+          levelWidth = 100
+        })
     end
 end
 

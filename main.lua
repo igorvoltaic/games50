@@ -6,36 +6,36 @@
     cogden@cs50.harvard.edu
 ]]
 
-require 'src/Dependencies'
+require 'src/config/Dependencies'
 
 function love.load()
     math.randomseed(os.time())
     love.window.setTitle('Legend of Zelda')
     love.graphics.setDefaultFilter('nearest', 'nearest')
 
-    push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, {
+    Push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, {
         fullscreen = false,
         vsync = true,
         resizable = true
     })
 
-    love.graphics.setFont(gFonts['small'])
+    love.graphics.setFont(GFonts['small'])
 
-    gStateMachine = StateMachine {
+    GStateMachine = StateMachine {
         ['start'] = function() return StartState() end,
         ['play'] = function() return PlayState() end,
         ['game-over'] = function() return GameOverState() end
     }
-    gStateMachine:change('start')
+    GStateMachine:change('start')
 
-    gSounds['music']:setLooping(true)
-    gSounds['music']:play()
+    GSounds['music']:setLooping(true)
+    GSounds['music']:play()
 
     love.keyboard.keysPressed = {}
 end
 
 function love.resize(w, h)
-    push:resize(w, h)
+    Push:resize(w, h)
 end
 
 function love.keypressed(key)
@@ -48,13 +48,13 @@ end
 
 function love.update(dt)
     Timer.update(dt)
-    gStateMachine:update(dt)
+    GStateMachine:update(dt)
 
     love.keyboard.keysPressed = {}
 end
 
 function love.draw()
-    push:start()
-    gStateMachine:render()
-    push:finish()
+    Push:start()
+    GStateMachine:render()
+    Push:finish()
 end

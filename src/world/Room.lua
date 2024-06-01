@@ -98,7 +98,7 @@ function Room:generateObjects()
                 doorway.open = true
             end
 
-            gSounds['door']:play()
+            GSounds['door']:play()
         end
     end
 
@@ -166,12 +166,12 @@ function Room:update(dt)
 
         -- collision between the player and entities in the room
         if not entity.dead and self.player:collides(entity) and not self.player.invulnerable then
-            gSounds['hit-player']:play()
+            GSounds['hit-player']:play()
             self.player:damage(1)
             self.player:goInvulnerable(1.5)
 
             if self.player.health == 0 then
-                gStateMachine:change('game-over')
+                GStateMachine:change('game-over')
             end
         end
     end
@@ -190,7 +190,7 @@ function Room:render()
     for y = 1, self.height do
         for x = 1, self.width do
             local tile = self.tiles[y][x]
-            love.graphics.draw(gTextures['tiles'], gFrames['tiles'][tile.id],
+            love.graphics.draw(GTextures['tiles'], GFrames['tiles'][tile.id],
                 (x - 1) * TILE_SIZE + self.renderOffsetX + self.adjacentOffsetX, 
                 (y - 1) * TILE_SIZE + self.renderOffsetY + self.adjacentOffsetY)
         end

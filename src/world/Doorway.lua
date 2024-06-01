@@ -39,8 +39,8 @@ function Doorway:init(direction, open, room)
 end
 
 function Doorway:render(offsetX, offsetY)
-    local texture = gTextures['tiles']
-    local quads = gFrames['tiles']
+    local texture = GTextures['tiles']
+    local quads = GFrames['tiles']
 
     -- used for shifting the doors when sliding rooms
     self.x = self.x + offsetX

@@ -9,7 +9,7 @@
 GameObject = Class{}
 
 function GameObject:init(def, x, y)
-    
+
     -- string identifying this object type
     self.type = def.type
 
@@ -38,6 +38,6 @@ function GameObject:update(dt)
 end
 
 function GameObject:render(adjacentOffsetX, adjacentOffsetY)
-    love.graphics.draw(gTextures[self.texture], gFrames[self.texture][self.states[self.state].frame or self.frame],
+    love.graphics.draw(GTextures[self.texture], GFrames[self.texture][self.states[self.state].frame or self.frame],
         self.x + adjacentOffsetX, self.y + adjacentOffsetY)
 end

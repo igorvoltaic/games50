@@ -23,14 +23,14 @@ function EntityWalkState:init(entity, dungeon)
 end
 
 function EntityWalkState:update(dt)
-    
+
     -- assume we didn't hit a wall
     self.bumped = false
 
     -- boundary checking on all sides, allowing us to avoid collision detection on tiles
     if self.entity.direction == 'left' then
         self.entity.x = self.entity.x - self.entity.walkSpeed * dt
-        
+
         if self.entity.x <= MAP_RENDER_OFFSET_X + TILE_SIZE then 
             self.entity.x = MAP_RENDER_OFFSET_X + TILE_SIZE
             self.bumped = true
@@ -67,7 +67,7 @@ function EntityWalkState:processAI(params, dt)
     local directions = {'left', 'right', 'up', 'down'}
 
     if self.moveDuration == 0 or self.bumped then
-        
+
         -- set an initial move duration and direction
         self.moveDuration = math.random(5)
         self.entity.direction = directions[math.random(#directions)]
@@ -90,9 +90,9 @@ end
 
 function EntityWalkState:render()
     local anim = self.entity.currentAnimation
-    love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()],
+    love.graphics.draw(GTextures[anim.texture], GFrames[anim.texture][anim:getCurrentFrame()],
         math.floor(self.entity.x - self.entity.offsetX), math.floor(self.entity.y - self.entity.offsetY))
-    
+
     -- debug code
     -- love.graphics.setColor(255, 0, 255, 255)
     -- love.graphics.rectangle('line', self.entity.x, self.entity.y, self.entity.width, self.entity.height)

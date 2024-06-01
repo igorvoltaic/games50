@@ -52,20 +52,20 @@ end
 function PlayerSwingSwordState:enter(params)
 
     -- restart sword swing sound for rapid swinging
-    gSounds['sword']:stop()
-    gSounds['sword']:play()
+    GSounds['sword']:stop()
+    GSounds['sword']:play()
 
     -- restart sword swing animation
     self.player.currentAnimation:refresh()
 end
 
 function PlayerSwingSwordState:update(dt)
-    
+
     -- check if hitbox collides with any entities in the scene
     for k, entity in pairs(self.dungeon.currentRoom.entities) do
         if entity:collides(self.swordHitbox) then
             entity:damage(1)
-            gSounds['hit-enemy']:play()
+            GSounds['hit-enemy']:play()
         end
     end
 
@@ -83,7 +83,7 @@ end
 
 function PlayerSwingSwordState:render()
     local anim = self.player.currentAnimation
-    love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()],
+    love.graphics.draw(GTextures[anim.texture], GFrames[anim.texture][anim:getCurrentFrame()],
         math.floor(self.player.x - self.player.offsetX), math.floor(self.player.y - self.player.offsetY))
 
     --
